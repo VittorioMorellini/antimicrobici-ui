@@ -1,0 +1,441 @@
+<section class="page-dashboard section-data">
+  <div class="button-bar">
+    <button mat-button (click)="print()">
+      <mat-icon>print</mat-icon>
+      Stampa
+    </button>
+    <!--
+    <a [routerLink]="['/c/richieste/farmacisti']">Farmacisti</a>
+
+    <button mat-button (click)="gotoFarmacisti()">
+      <mat-icon>add</mat-icon>
+      Farmacisti
+    </button>
+    -->
+    <button
+      mat-button
+      (click)="openDialogAddRecord(null, 'INSERISCI MATERIALE SCADUTO', 'INS')"
+    >
+      <mat-icon>add</mat-icon>
+      Aggiungi
+    </button>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <section class="section-data">
+      <div fxLayout="column" fxLayoutGap="10px">
+        <section class="filter" fxFlex="1">
+          <form #f="ngForm" (ngSubmit)="search()">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Filtri</b>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="column" fxFlex="100">
+                  <div
+                    fxLayout="row"
+                    fxLayout.lt-lg="column"
+                    fxLayoutGap.gt-md="10px"
+                  >
+                    <mat-form-field fxFlex="43">
+                      <input
+                        type="text"
+                        placeholder="Centro di costo"
+                        aria-label="Number"
+                        matInput
+                        [(ngModel)]="filter.cdc"
+                        [matAutocomplete]="auto"
+                        name="cdc"
+                        [formControl]="myCdc"
+                      />
+                      <mat-autocomplete
+                        #auto="matAutocomplete"
+                        [displayWith]="displayFn"
+                      >
+                        <mat-option
+                          *ngFor="let cdc of filteredOptions"
+                          [value]="cdc"
+                        >
+                          {{ cdc.cdc }} [{{ cdc.azienda }}]
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="11">
+                      <input
+                        matInput
+                        [matDatepicker]="dataDa"
+                        placeholder="Dalla data"
+                        [(ngModel)]="filter.dataDa"
+                        name="dataDa"
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="dataDa">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #dataDa></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="11">
+                      <input
+                        matInput
+                        [matDatepicker]="dataA"
+                        placeholder="Alla data"
+                        [(ngModel)]="filter.dataA"
+                        name="dataA"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="dataA"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #dataA></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35">
+                      <mat-label>Richiedente</mat-label>
+                      <mat-select
+                        [(ngModel)]="filter.richiedente"
+                        name="richiedente"
+                        placeholder="Richiedente"
+                      >
+                        <mat-option>Tutti</mat-option>
+                        <mat-option
+                          *ngFor="let richiedente of richiedenti | async"
+                          [value]="richiedente"
+                        >
+                          {{ richiedente.nome }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div
+                    fxLayout="row"
+                    fxLayout.lt-lg="column"
+                    fxLayoutGap.gt-md="10px"
+                  >
+                    <mat-form-field fxFlex="18">
+                      <mat-label>Tipo Materiale</mat-label>
+                      <mat-select
+                        [(ngModel)]="filter.tipo"
+                        name="tipo"
+                        placeholder="Tipo Materiale"
+                      >
+                        <mat-option>Tutti</mat-option>
+                        <mat-option
+                          *ngFor="let tipo of tipiMateriale | async"
+                          [value]="tipo"
+                        >
+                          {{ tipo.nome }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="47">
+                      <input
+                        type="text"
+                        placeholder="Materiale"
+                        aria-label="Number"
+                        matInput
+                        [(ngModel)]="filter.materiale"
+                        [matAutocomplete]="autoMat"
+                        name="materiale"
+                        [formControl]="myMateriale"
+                      />
+                      <mat-autocomplete
+                        #autoMat="matAutocomplete"
+                        [displayWith]="displayMat"
+                      >
+                        <mat-option
+                          *ngFor="let materiale of filteredMates"
+                          [value]="materiale"
+                        >
+                          {{ materiale.IDMateriale }}
+                          {{ materiale.DesMateriale }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <div fxFlex="35">
+                      <label class="stato-margin">Stato</label>
+                      <mat-radio-group [(ngModel)]="filter.stato" name="stato">
+                        <mat-radio-button class="stato-margin" value=""
+                          >Tutti</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="1"
+                          >Ritirato</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="0"
+                          >Non Ritirato</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </div>
+
+                <mat-action-row>
+                  <!-- <button mat-raised-button color="primary" type="submit" [disabled]="!f.form.valid">Filtra</button> -->
+                  <button
+                    mat-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!f.form.valid"
+                    matTooltip="Ricerca"
+                    matTooltipClass="custom-tooltip-green"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <button
+                    mat-button
+                    color="primary"
+                    type="button"
+                    [disabled]="!f.form.valid"
+                    matTooltip="Export xls"
+                    matTooltipClass="custom-tooltip-green"
+                    (click)="exportExcel()"
+                  >
+                    <mat-icon>get_app</mat-icon>
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </form>
+        </section>
+
+        <section class="main-data" fxFlex="1">
+          <div class="data-loading" *ngIf="loading">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <div class="mat-elevation-z2">
+            <form #gridForm="ngForm" novalidate></form>
+            <table
+              mat-table
+              matSort
+              [dataSource]="dataSource"
+              [trackBy]="trackById"
+              class="w-100 striped"
+            >
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="icon_color">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  matTooltip="Verde se Data ritiro minore o uguale a data odierna"
+                ></th>
+                <td mat-cell *matCellDef="let row" [class]="row.classIcon">
+                  <mat-icon class="icon-small">lens</mat-icon>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="id">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="ID"
+                  matTooltipClass="custom-tooltip-green"
+                >
+                  ID
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              </ng-container>
+              <ng-container matColumnDef="dataControllo">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Data controllo"
+                >
+                  Data controllo
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.dataControllo | date: "dd/MM/yyyy" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="centroDiCosto">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Centro di costo"
+                >
+                  Centro di costo
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.cdc?.cdc }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="tipo">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Tipo materiale"
+                >
+                  Tipo Materiale
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.type?.nome }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="materiale">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Materiale"
+                >
+                  Materiale
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.desMateriale }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="UM">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="UM"
+                >
+                  UM
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.um }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="qta">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Quantita"
+                >
+                  Qta
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.quantita }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="scadenzaMateriale">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Scadenza materiale"
+                >
+                  Data Scadenza materiale
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.dataScadenzaMateriale | date: "dd/MM/yyyy" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="lotto">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Lotto"
+                >
+                  Lotto
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.lotto }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="compilatore">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Compilatore"
+                >
+                  Compilatore
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.compilatore }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="qualificaCompilatore">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Qualifica Compilatore"
+                >
+                  Qualifica Compilatore
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.qualificaCompilatore }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="note">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Note</th>
+                <td mat-cell *matCellDef="let row" [matTooltip]="showNote(row)">
+                  {{ row.note }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cmdDel">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row" class="comando">
+                  <button
+                    mat-button
+                    color="primary"
+                    type="button"
+                    (click)="
+                      openDialog(row, 'Confermi eliminazione riga ?', 'DEL')
+                    "
+                    matTooltip="Elimina"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cmdDuplica">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row" class="comando">
+                  <button
+                    mat-button
+                    color="primary"
+                    type="button"
+                    (click)="
+                      openDialogAddRecord(row, 'DUPLICAZIONE MATERIALE', 'DUP')
+                    "
+                    matTooltip="Duplica"
+                  >
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+                class="header-row"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                class="element-row"
+              ></tr>
+            </table>
+            <mat-paginator
+              [length]="total"
+              [pageSizeOptions]="[10, 20, 50, 100, 200]"
+            >
+            </mat-paginator>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</section>

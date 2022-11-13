@@ -1,0 +1,24 @@
+<div class="app-menu">
+  <div class="menu-content">
+
+    <nav *ngFor="let entry of entries; let last = last">
+      <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="true" class="menu-entry">
+        <app-icon *ngIf="entry.icon" [name]="entry.icon"></app-icon>
+        <span class="name">{{entry.name}}</span>
+        <mat-icon class="pull-right">{{panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down'}}</mat-icon>
+      </button>
+
+      <ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-{{entry.id}}">
+        <li *ngFor="let item of entry.items" class="menu-item">
+          <a [routerLink]="['/c/', entry.name, item.name]" routerLinkActive="selected">
+            <app-icon *ngIf="item.icon" [name]="item.icon" matClass="s-sm"></app-icon>
+            <span class="name">{{item.name}}</span>
+          </a>
+        </li>
+      </ul>
+
+      <hr *ngIf="!last" />
+    </nav>
+
+  </div>
+</div>

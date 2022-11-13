@@ -1,0 +1,27 @@
+@import "../../../styles/animations";
+
+.logo {
+  text-transform: uppercase;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+
+  .left {
+    text-align: right;
+  }
+
+  .right {
+    text-align: left;
+  }
+
+}
+
+.logo-icon {
+  width: 32px;
+
+  &.busy {
+    @include rotation(2s);
+  }
+}
+.center {
+  vertical-align: middle;
+}

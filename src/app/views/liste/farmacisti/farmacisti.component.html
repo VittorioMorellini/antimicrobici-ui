@@ -1,0 +1,478 @@
+<section class="page-dashboard section-data">
+  <div fxLayout="row" fxLayoutGap="10px">
+    <section class="section-data">
+      <div fxLayout="column" fxLayoutGap="10px">
+        <section class="filter" fxFlex="1">
+          <form #f="ngForm" (ngSubmit)="search()">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Filtri</b>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="column" fxFlex="100">
+                  <div
+                    fxLayout="row"
+                    fxLayout.lt-lg="column"
+                    fxLayoutGap.gt-md="10px"
+                  >
+                    <mat-form-field fxFlex="12">
+                      <input
+                        matInput
+                        [matDatepicker]="dataDa"
+                        placeholder="Dalla data"
+                        [(ngModel)]="filter.dataDa"
+                        name="dataDa"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="dataDa"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #dataDa></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="12">
+                      <input
+                        matInput
+                        [matDatepicker]="dataA"
+                        placeholder="Alla data"
+                        [(ngModel)]="filter.dataA"
+                        name="dataA"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="dataA"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #dataA></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35">
+                      <mat-label>Richiedente</mat-label>
+                      <mat-select
+                        [(ngModel)]="filter.richiedente"
+                        name="richiedente"
+                      >
+                        <mat-option>Tutti</mat-option>
+                        <mat-option
+                          *ngFor="let richiedente of richiedenti | async"
+                          [value]="richiedente"
+                        >
+                          {{ richiedente.nome }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35">
+                      <mat-label>Farmaco</mat-label>
+                      <mat-select
+                        [(ngModel)]="filter.materiale"
+                        name="materiale"
+                        placeholder="Farmaco"
+                      >
+                        <mat-option>Tutti</mat-option>
+                        <mat-option
+                          *ngFor="let materiale of materiali | async"
+                          [value]="materiale"
+                        >
+                          {{ materiale.nome }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div
+                    fxLayout="row"
+                    fxLayout.lt-lg="column"
+                    fxLayoutGap.gt-md="10px"
+                  >
+                    <mat-form-field fxFlex="15">
+                      <input
+                        matInput
+                        placeholde5="Medico"
+                        [(ngModel)]="filter.medico"
+                        name="medico"
+                        placeholder="Medico"
+                      />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="16">
+                      <input
+                        matInput
+                        placeholder="Motivazione"
+                        [(ngModel)]="filter.motivazione"
+                        name="motivazione"
+                        placeholder="Diagnosi"
+                      />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="15">
+                      <input
+                        matInput
+                        placeholde5="Destinatario paziente"
+                        [(ngModel)]="filter.destinatario"
+                        name="destinatario"
+                        placeholder="Paziente"
+                      />
+                    </mat-form-field>
+                    <div fxFlex="27">
+                      <label class="stato-margin">Stato Farm:</label>
+                      <mat-radio-group [(ngModel)]="filter.stato" name="stato">
+                        <mat-radio-button class="stato-margin" value=""
+                          >Tutti</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="1"
+                          >Evaso</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="0"
+                          >Non Evaso</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
+                    <div fxFlex="27">
+                      <label class="stato-margin">Stato Infett:</label>
+                      <mat-radio-group
+                        [(ngModel)]="filter.statoMedico"
+                        name="statoMedico"
+                      >
+                        <mat-radio-button class="stato-margin" value=""
+                          >Tutti</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="1"
+                          >Evaso</mat-radio-button
+                        >
+                        <mat-radio-button class="stato-margin" value="0"
+                          >Non Evaso</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </div>
+
+                <mat-action-row>
+                  <!-- <button mat-raised-button color="primary" type="submit" [disabled]="!f.form.valid">Filtra</button> -->
+                  <button
+                    mat-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!f.form.valid"
+                    matTooltip="Ricerca"
+                    matTooltipClass="custom-tooltip-green"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <button
+                    mat-button
+                    color="primary"
+                    type="button"
+                    [disabled]="!f.form.valid"
+                    matTooltip="Export xls"
+                    matTooltipClass="custom-tooltip-green"
+                    (click)="exportExcel()"
+                  >
+                    <mat-icon>get_app</mat-icon>
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </form>
+        </section>
+
+        <section class="main-data" fxFlex="1">
+          <div class="data-loading" *ngIf="loading">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <div class="mat-elevation-z2">
+            <form #gridForm="ngForm" novalidate></form>
+            <table
+              mat-table
+              matSort
+              [dataSource]="dataSource"
+              [trackBy]="trackById"
+              class="w-100 striped"
+            >
+              <ng-container matColumnDef="nrImpegno">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Numero impegno"
+                  matTooltipClass="custom-tooltip-green"
+                >
+                  Nr.Impegno
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.nrImpegno }}</td>
+              </ng-container>
+              <ng-container matColumnDef="alert">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row" [class]="row.classAlert">
+                  <mat-icon
+                    *ngIf="row.alert"
+                    matTooltip="Richiesta triplicata negli ultimi 7 giorni"
+                    >warning</mat-icon
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cdc_nome">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Centro di costo richiedente"
+                >
+                  Cdc richiedente
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.cdcRichiedente.nome }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="dataCreazioneImpegno">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Data creazione impegno"
+                  class="left-button"
+                >
+                  Data impegno
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.dataCreazioneImpegno | date: "dd/MM/yyyy" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="materiale">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Ordinamento sulla descrizione"
+                >
+                  Farmaco
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.codiceMateriale }}<br />{{ row.descrizioneMateriale }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="paziente">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                  Paziente
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.destinatarioPazienteDettaglio }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="motivazione">
+                <th mat-header-cell *matHeaderCellDef>Diagnosi</th>
+                <td mat-cell *matCellDef="let row" class="max-width">
+                  {{ row.motivazione }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="posologia">
+                <th mat-header-cell *matHeaderCellDef>Posologia</th>
+                <td mat-cell *matCellDef="let row">{{ row.posologia }}</td>
+              </ng-container>
+              <ng-container matColumnDef="medicoRichiedente">
+                <th mat-header-cell *matHeaderCellDef>Medico richiedente</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.medicoRichiedente }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="consulenzaInfettivologica">
+                <th mat-header-cell *matHeaderCellDef class="center">
+                  Consulenza infettivologo
+                </th>
+                <td mat-cell *matCellDef="let row" class="center">
+                  {{ row.consulenzaInfettivologica }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="medicoUO">
+                <th mat-header-cell *matHeaderCellDef class="center">
+                  Medico U.O.
+                </th>
+                <td mat-cell *matCellDef="let row" class="center">
+                  {{ row.medicoUO }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="antibiogramma">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  matTooltip="Antibiogramma"
+                  class="center"
+                >
+                  ABC
+                </th>
+                <td mat-cell *matCellDef="let row" class="center">
+                  {{ row.antibiogramma }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="qtaRichiesta">
+                <th mat-header-cell *matHeaderCellDef class="text-right">
+                  Qta richiesta
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-right">
+                  {{ row.qtaRichiesta }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="quantita" *ngIf="!isInfettivologo">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Quantità inserita dal farmacista"
+                  class="right-button"
+                >
+                  Qta cons
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let row; let i = index"
+                  class="quantita"
+                >
+                  <mat-form-field floatLabel="never" class="mat-form-quantita">
+                    <input
+                      matInput
+                      [value]="row.quantita"
+                      (keypress)="numberOnly($event)"
+                      [(ngModel)]="row.quantita"
+                      name="quantita-{{ i }}"
+                    />
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="quantita" *ngIf="isInfettivologo">
+                <th
+                  mat-header-cell
+                  mat-sort-header
+                  *matHeaderCellDef
+                  matTooltip="Quantità inserita dal farmacista"
+                  class="text-right"
+                >
+                  Qta cons
+                </th>
+                <td mat-cell *matCellDef="let row" class="mat-form-quantita">
+                  {{ row.quantita }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="inserimentoData">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  matTooltip="Data in cui il farmacista ha inserito la quantità"
+                >
+                  Data inserimento
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.inserimentoData | date: "dd/MM/yyyy" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="icon_color">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  matTooltip="Verde se il farmacista ha inserito la quantità"
+                >
+                  Stato Farm
+                </th>
+                <td mat-cell *matCellDef="let row" [class]="row.classIcon">
+                  <mat-icon class="icon-small">lens</mat-icon>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="statoMedico">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  matTooltip="Verde se il medico ha confermato la quantità"
+                >
+                  Stato Infettiv
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let row"
+                  [class]="row.classIconMedico"
+                >
+                  <mat-icon class="icon-small">lens</mat-icon>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="offLabel">
+                <th mat-header-cell *matHeaderCellDef matTooltip="Off Label">
+                  Off label
+                </th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <mat-checkbox
+                    color="primary"
+                    [value]="row.offLabel"
+                    [(ngModel)]="row.offLabel"
+                    name="offLabel-{{ i }}"
+                    [disabled]="isInfettivologo"
+                  ></mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="note">
+                <th mat-header-cell *matHeaderCellDef>Note farmacista</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <mat-form-field>
+                    <textarea
+                      matInput
+                      [value]="row.note"
+                      [(ngModel)]="row.note"
+                      name="note-{{ i }}"
+                      rows="2"
+                      cols="16"
+                      [readonly]="isInfettivologo"
+                      [matTooltip]="showNote(row, false)"
+                      matTooltipPosition="below"
+                    >
+                    </textarea>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="noteMedico">
+                <th mat-header-cell *matHeaderCellDef>Note infettivologo</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <mat-form-field>
+                    <textarea
+                      matInput
+                      [value]="row.noteMedico"
+                      [(ngModel)]="row.noteMedico"
+                      name="noteMedico-{{ i }}"
+                      rows="2"
+                      cols="16"
+                      [readonly]="!isInfettivologo"
+                      [matTooltip]="showNote(row, true)"
+                      matTooltipPosition="below"
+                    >
+                    </textarea>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="comando">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row" class="comando">
+                  <button
+                    mat-button
+                    color="primary"
+                    type="submit"
+                    (click)="save(row)"
+                    matTooltip="Salva"
+                  >
+                    <mat-icon>save</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+                class="header-row"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                class="element-row"
+              ></tr>
+            </table>
+            <mat-paginator
+              [length]="total"
+              [pageSizeOptions]="[10, 20, 50, 100, 200]"
+            >
+            </mat-paginator>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</section>

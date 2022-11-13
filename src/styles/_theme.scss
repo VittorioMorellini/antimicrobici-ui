@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@import '../app/layout/focus/focus.theme';
+@import '../app/layout/header/header.theme';
+@import '../app/layout/menu/menu.theme';
+@import '../app/shared/side-panel/side-panel.theme';
+
+@mixin app-theme($theme) {
+  @include app-header-theme($theme);
+  @include app-menu-theme($theme);
+  @include app-side-panel-theme($theme);
+  @include app-focus-theme($theme);
+}

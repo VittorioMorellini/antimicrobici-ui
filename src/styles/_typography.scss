@@ -1,0 +1,43 @@
+@import "layout";
+
+// text alignment classes
+$text-alignments: [center left right];
+@each $tal in $text-alignments {
+  .t-#{$tal} {
+    text-align: $tal;
+  }
+}
+
+@mixin dl-horizontal($label-size) {
+  display: inline-block;
+  width: 100%;
+
+  dt, dd {
+    display: inline-block;
+    line-height: 200%;
+  }
+
+  dt {
+    width: percentage($label-size/100);
+    float: left;
+    clear: left;
+    // font-weight: bold;
+  }
+
+  dd {
+    width: 100% - percentage($label-size/100);
+    float: right;
+    margin: 0;
+  }
+}
+
+$dl-label-sizes: 30, 40, 50, 60, 70;
+@each $size in $dl-label-sizes {
+  dl.horizontal-#{$size} {
+    @include dl-horizontal($size);
+  }
+}
+
+dl.horizontal {
+  @include dl-horizontal(40);
+}

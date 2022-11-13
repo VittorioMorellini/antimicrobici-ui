@@ -1,0 +1,144 @@
+<div mat-dialog-content style="overflow-y: hidden">
+  <h3>{{ data.title }}</h3>
+  <form #f="ngForm">
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="80">
+          <input
+            type="text"
+            placeholder="Centro di costo"
+            aria-label="Number"
+            matInput
+            [(ngModel)]="model.cdc"
+            [matAutocomplete]="autoCdc"
+            name="cdc"
+            [formControl]="myCdc"
+            filter="_filterCdc"
+          />
+          <mat-autocomplete
+            #autoCdc="matAutocomplete"
+            [displayWith]="displayCdc"
+          >
+            <mat-option *ngFor="let cdc of filteredCdcs" [value]="cdc">
+              {{ cdc.cdc }} [{{ cdc.azienda }}]
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="20">
+          <mat-label>Data Controllo</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="model.controlDate"
+            name="controlDate"
+            placeholder="Data controllo"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="100">
+          <input
+            type="text"
+            placeholder="Materiale"
+            aria-label="Number"
+            matInput
+            [(ngModel)]="model.materiale"
+            [matAutocomplete]="auto"
+            name="materiale"
+            [formControl]="myMateriale"
+          />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMat">
+            <mat-option
+              *ngFor="let materiale of filteredMaterials"
+              [value]="materiale"
+            >
+              {{ materiale.codMateriale }} {{ materiale.descMateriale }} [{{
+                materiale.descUnitaMisura
+              }}]
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="20">
+          <input
+            type="number"
+            matInput
+            placeholder="Quantita"
+            aria-label="Number"
+            [(ngModel)]="model.quantity"
+            name="quantity"
+          />
+        </mat-form-field>
+
+        <mat-form-field fxFlex="60">
+          <input
+            type="text"
+            placeholder="Lotto materiale"
+            aria-label="Number"
+            matInput
+            [(ngModel)]="model.lotto"
+            name="lotto"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex="20">
+          <input
+            matInput
+            [matDatepicker]="pickerS"
+            name="expireDate"
+            [(ngModel)]="model.expireDate"
+            placeholder="Data scadenza materiale"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerS"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerS></mat-datepicker>
+        </mat-form-field>
+        <!--<button
+          mat-raised-button
+          (click)="pickerS.open()"
+          style="height: 50%; width: 190px; display: inline-block"
+        >
+          Calendario
+        </button>-->
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="100">
+          <input
+            type="text"
+            placeholder="Note"
+            aria-label="Number"
+            matInput
+            [(ngModel)]="model.notes"
+            name="notes"
+          />
+        </mat-form-field>
+      </div>
+
+      <div mat-dialog-actions>
+        <div style="float: right">
+          <button mat-button (click)="onNoClick()" cdkFocusInitial>
+            Annulla
+          </button>
+          <button
+            mat-button
+            [mat-dialog-close]="true"
+            type="button"
+            (click)="save(f)"
+          >
+            Salva
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

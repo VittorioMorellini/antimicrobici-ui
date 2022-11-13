@@ -1,0 +1,47 @@
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+@for $w from 10 through 100 {
+  @if $w % 10 == 0 {
+    .w-#{$w} {
+      width: percentage($w/100);
+    }
+  }
+}
+
+// Clears floating
+@mixin clearfix() {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+
+.goldenrod {
+  color: goldenrod;
+}
+
+.red {
+  color: red;
+}
+
+.font-normal {
+  font-weight: normal!important;
+}
+
+//class to make bold hover mouse on mat header table
+.mat-header-cell:hover {
+  font-weight: bold;
+}
+.element-row.mat-row:hover {
+  background-color: #d8e2df86  !important;
+}
+.vertical-icon {
+  vertical-align: middle;
+}

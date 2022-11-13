@@ -1,0 +1,17 @@
+<div class="content-layout" *ngIf="profile|async; let prf">
+
+  <app-header [landingPage]="landingPage(prf)" class="header" (menuIDEvent)="menuIDHandler($event)"></app-header>
+
+  <mat-sidenav-container class="container">
+    <mat-sidenav mode="side" [opened]="isOpened">
+      <app-menu [entries]="prf.menu"></app-menu>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <app-loading-screen></app-loading-screen>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+</div>

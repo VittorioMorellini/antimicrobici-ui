@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+
+@mixin app-side-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .side-panel-container {
+    border-left: solid 4px mat-color($primary);
+    padding: 5px 0 10px 10px;
+    width: 100%;
+  }
+}
+
+

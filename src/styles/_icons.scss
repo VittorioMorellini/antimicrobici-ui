@@ -1,0 +1,8 @@
+@import 'colors';
+@import '../app/shared/icon/_icon.component.scss';
+
+@each $name, $value in $icon-colors {
+  .#{$name}-icon {
+    color: $value;
+  }
+}

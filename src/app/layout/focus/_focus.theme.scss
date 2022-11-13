@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+@import '../../../styles/_colors';
+
+@mixin app-focus-theme($theme) {
+  $gradient: map-get($gradients, error);
+
+  .focuslayout {
+    background-image: radial-gradient(circle, $gradient...);
+    color: white;
+  }
+}

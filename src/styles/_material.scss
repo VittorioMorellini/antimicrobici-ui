@@ -1,0 +1,51 @@
+@import '~@angular/material/theming';
+
+@import "colors";
+
+// overrides mat-card-header width when w-* is applied to header
+@for $w from 10 through 100 {
+  @if $w % 10 == 0 {
+    mat-card-header.w-#{$w} .mat-card-header-text {
+      width: percentage($w/100);
+    }
+  }
+}
+
+mat-action-row.fx-start {
+  justify-content: flex-start;
+}
+
+mat-action-row.fx-end {
+  justify-content: flex-end;
+}
+
+table.clickable tr[mat-row]:not(.not-clickable) {
+  cursor: pointer;
+}
+
+tr[mat-row].expandable:not(.expanded) td {
+  border-bottom-width: 0;
+}
+
+.mat-checkbox-layout .mat-checkbox-label .mat-icon {
+  line-height: 24px;
+  font-size: 14px;
+}
+
+@mixin app-mat-theme($theme) {
+  $primary: map-get($theme, primary);
+  $bg-color: lighten(mat-color($primary, lighter), 10%);
+  $err-grad: map-get($gradients, error);
+
+  tr[mat-row].selected {
+    background-color: $bg-color;
+  }
+
+  table.striped tr[mat-row]:not(.not-striped):hover {
+    background-color: $bg-color;
+  }
+
+  .mat-snack-bar-container.snack-error {
+    background-color: nth($err-grad, 1);
+  }
+}

@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+
+$app-colors: (
+  overlay: rgba(0, 0, 0, 0.6),
+  grey: #696868,
+);
+
+$palettes: (
+  complementary: (
+    #93cdf0,
+    #9cd4a0,
+    #d5badf,
+    #eeaad0,
+    #fdd982
+  ),
+  severity: (
+    #F58E97,
+    #F5B28E,
+    #F5DB8E,
+    #E7F58E,
+    #BCF58E,
+    #95F58E
+  )
+);
+
+// https://mycolor.space/gradient?ori=circle&hex=%23871010&hex2=%23370510&sub=1
+$gradients: (
+  error: (#871010, #730814, #5f0515, #4b0514, #370510),
+  // loading: (#323d5e, #2d3352, #272947, #21203b, #1b1730)
+  loading: (#a6c0dd, #7bc0cc, #6fa0bd, #3c6499, #2a4eb1)
+);
+
+$icon-colors: (
+  green: green,
+  blue: blue,
+  red: red,
+  orange: orange,
+  aqua: aqua,
+  yellow: #ffe15c
+);

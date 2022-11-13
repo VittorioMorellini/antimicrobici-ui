@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content style="display: contents!important;">
+  <div class="data-loading" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <!--<div style="width: 800px; height: 400px">
+    <ng2-pdfjs-viewer
+      #pdfViewerOnDemand
+      [externalWindow]="true"
+      [downloadFileName]="'mytestfile.pdf'"
+      [openFile]="false"
+      [viewBookmark]="false"
+      [download]="false">
+    </ng2-pdfjs-viewer>
+  </div>-->
+  <div style="width: 1100px; height: 800px;">
+    <ng2-pdfjs-viewer #pdfViewerAutoLoad zoom="90"></ng2-pdfjs-viewer>
+  </div>
+  <!--
+  <div style="height: 600px">
+    <ng2-pdfjs-viewer pdfSrc="gre_research_validity_data.pdf"
+      viewerId="MyUniqueID" (onBeforePrint)="testBeforePrint()" (onAfterPrint)="testAfterPrint()" (onDocumentLoad)="testPagesLoaded($event)" (onPageChange)="testPageChange($event)">
+    </ng2-pdfjs-viewer>
+  </div>
+  -->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Chiudi</button>
+</mat-dialog-actions>

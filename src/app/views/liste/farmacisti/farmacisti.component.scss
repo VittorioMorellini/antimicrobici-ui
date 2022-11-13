@@ -1,0 +1,108 @@
+@import "../../../../styles/colors";
+@import '../../../../styles.scss';
+
+.button-bar {
+  margin-bottom: 0.5rem;
+}
+
+.main-data {
+  position: relative;
+
+  .data-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+}
+ // Stile per header ordinamento
+::ng-deep th.left-button {
+  button.mat-sort-header-button {
+    text-align: left;
+  }
+}
+
+::ng-deep th.right-button {
+  button.mat-sort-header-button {
+    text-align: right;
+  }
+}
+
+td.mat-cell {
+  padding-right: 4px;
+  vertical-align: top;
+}
+th.mat-header-cell {
+  padding-right: 4px !important;
+  vertical-align: top;
+}
+/* per diminuire altezza riga di default
+tr.mat-row.element-row {
+  height: 24px;
+}*/
+.max-width {
+  max-width: 130px;
+}
+tr.mat-header-row {
+  height: 34px;
+  padding-top: 1px;
+}
+::ng-deep.mat-radio-outer-circle {
+  height: 16px!important;
+  width: 16px!important;
+}
+::ng-deep.mat-radio-inner-circle {
+  height: 16px!important;
+  width: 16px!important;
+}
+.mat-icon {
+  font-size: 24px;
+}
+.quantita {
+  vertical-align: top !important;
+  text-align: right!important;
+}
+.mat-form-quantita {
+  width: 45px;
+  text-align: right!important;
+  padding-right: 19px!important
+}
+.center {
+  text-align: center;
+}
+.left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.td-icon {
+  vertical-align: top !important;
+  padding-top: 0px !important;
+}
+.icon-small {
+  font-size: 16px!important;
+}
+::ng-deep td .mat-form-field-infix {
+  border-top: 0 !important;
+  padding-top: 1px !important;
+}
+::ng-deep td.comando .mat-button-wrapper {
+  display: flex;
+}
+.stato-margin {
+  margin: 0 10px;
+  padding-top: 14px;
+}
+/*
+::ng-deep.mat-sort-header-button {
+  text-align: right;
+}*/
+::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: mat-color($primary);
+}
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  background-color: mat-color($primary);
+  border-color: mat-color($primary);
+}

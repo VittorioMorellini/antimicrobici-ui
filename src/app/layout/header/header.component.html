@@ -1,0 +1,23 @@
+<mat-toolbar class="app-header mat-elevation-z4" color="primary">
+  <mat-toolbar-row>
+    <div fxLayout="row" fxFill fxLayoutAlign="space-between center">
+      <span>
+        <button mat-icon-button (click)="hideMenu()" [title]="isOpened? 'Nascondi menu' : 'Mostra menu'">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <a mat-button [routerLink]="landingPage">
+          <img alt="Tarifa Icon" src="assets/favicons/warehouse2.png" class="logo-icon" appBusy/>
+          <span class="logo">
+            <span class="left">Warehouse Request</span>
+            <span class="right"> Material</span>
+          </span>
+        </a>
+      </span>
+      <span>
+        <a mat-button href="#">
+          <mat-icon>account_circle</mat-icon>&nbsp; {{nomeUtente}}
+        </a>
+      </span>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

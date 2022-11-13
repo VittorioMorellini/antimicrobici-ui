@@ -1,0 +1,81 @@
+@import '../../../styles/constants';
+
+$line-height: 15px;
+$entry-font-size: 14px;
+$item-font-size: 14px;
+$icon-font-size: 14px;
+
+.app-menu {
+  position: relative;
+
+  .menu-content {
+    margin: $menu-margin;
+    width: $menu-width;
+    max-height: 75vh;
+    overflow: auto;
+
+    button {
+      padding: 10px 15px;
+      font-weight: 700;
+      line-height: $line-height;
+      margin: 0;
+      font-size: $entry-font-size;
+      cursor: pointer;
+      position: relative;
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .menu-entry {
+      .name {
+        position: relative;
+        bottom: 6px;
+        margin-left: 5px;
+      }
+    }
+
+    .menu-item {
+      .name {
+        // position: relative;
+        // bottom: 6px;
+        margin-left: 5px;
+      }
+    }
+
+    .mat-icon {
+      font-size: $icon-font-size;
+    }
+
+    hr {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0 0 5px 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    li {
+      font-size: $item-font-size;
+      line-height: $line-height;
+      margin: 0;
+      padding: 5px 15px 5px 25px;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+  }
+
+}

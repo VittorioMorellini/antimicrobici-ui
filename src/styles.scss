@@ -1,0 +1,99 @@
+@import '~@angular/material/theming';
+@import "styles/reset";
+@import "styles/layout";
+@import "styles/animations";
+@import "styles/loading";
+@import "styles/constants";
+@import "styles/typography";
+@import "styles/colors";
+@import "styles/icons";
+@import "styles/material";
+@import "styles/theme";
+
+// @import "~@progress/kendo-theme-material/scss/all";
+@import "~@progress/kendo-theme-material/scss/grid";
+// @import "~@progress/kendo-theme-material/scss/calendar";
+// @import "~@progress/kendo-theme-material/scss/input";
+
+// Include material core styles.
+@include mat-core();
+
+$my-green: (
+  50: #25cf25,
+  100: #50be50,
+  200: #38a538,
+  300: #1bb11b,
+  400: #1ba11b,
+  500: #1ba11b,
+  600: #20a720,
+  700: #107c10,
+  800: #197219,
+  900: #27b327,
+  A100: #1baa1b,
+  A200: #179717,
+  A400: #177c17,
+  A700: #208f20,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-blue: (
+  50: #7fdddd,
+  100: #7faedd,
+  200: #7f7fdd,
+  300: #7faedd,
+  400: #7faedd,
+  500: #7faedd,
+  600: #7faedd,
+  700: #7faedd,
+  800: #7faedd,
+  900: #7faedd,
+  A100: #7faedd,
+  A200: #7faedd,
+  A400: #7faedd,
+  A700: #7faedd,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$primary: mat-palette($my-blue);
+$accent: mat-palette($mat-cyan, A200, A100, A400);
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+@include app-theme($theme);
+@include app-mat-theme($theme);
+
+// Backgroud color: #dce8f7
+// cbf1cb
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

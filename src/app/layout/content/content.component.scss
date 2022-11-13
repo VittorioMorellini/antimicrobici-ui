@@ -1,0 +1,26 @@
+.content-layout {
+  position: relative;
+  top: 65px;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  // The rule will match the element following the router-outlet which will be the routed component.
+  //router-outlet + * {
+  //  flex-grow: 1;
+  //}
+}
+
+mat-sidenav-content {
+  padding: 20px;
+}
+
+mat-sidenav-container {
+  padding-top: 7px;
+  background-color: #def0de!important;
+}

@@ -1,0 +1,10 @@
+<div>
+  <img alt="Antimicrobial Stewardship" src="assets/favicons/favicon-96x96.png">
+  <h1>
+    <mat-icon>not_interested</mat-icon>
+    Operazione non permessa!
+  </h1>
+  <h3 *ngIf="model|async; let m">
+    {{m.reason}}
+  </h3>
+</div>

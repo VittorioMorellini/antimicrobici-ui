@@ -1,0 +1,44 @@
+@import "../../../../styles/colors";
+@import '../../../../styles.scss';
+
+.button-bar {
+  margin-bottom: 0.5rem;
+}
+
+.main-data {
+  position: relative;
+
+  .data-loading {
+    position: relative;
+    // top: 0;
+    left: 0;
+    right: 0;
+  }
+  .data-loading-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.stato-margin {
+  margin: 0 10px;
+  padding-top: 14px;
+}
+
+.center {
+  text-align: center;
+}
+.comando {
+  // margin-bottom: 20px;
+  display: inline-block;
+}
+
+::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: mat-color($primary);
+}
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  background-color: mat-color($primary);
+  border-color: mat-color($primary);
+}

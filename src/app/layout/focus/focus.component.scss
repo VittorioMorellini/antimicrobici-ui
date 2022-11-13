@@ -1,0 +1,39 @@
+/**
+ * Focus page style.
+ */
+@import '../../../styles/_colors';
+
+.focuslayout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-size: cover;
+
+  > .container,
+  > .container-fluid,
+  > .container > .row,
+  > .container-fluid > .row {
+    height: 100%;
+  }
+
+  .focuslayout-container {
+    position: relative;
+    text-align: center;
+    margin: 0;
+    background-color: map-get($app-colors, overlay);
+    padding: 2rem;
+    border: 1px solid map-get($app-colors, grey);
+    border-radius: 5px;
+  }
+
+  .focuslayout-footer {
+    color: map-get($app-colors, grey);
+    position: absolute;
+    bottom: -2rem;
+    left: 0;
+    width: 100%;
+  }
+}
