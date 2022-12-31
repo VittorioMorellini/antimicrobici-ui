@@ -107,11 +107,12 @@ export class FarmacistiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userServ.load().subscribe((res) => {
       this.isInfettivologo = res.isInfettivologo;
     });
-    this.refresh = new Subject();
-    this.destroy = new Subject();
+    this.refresh = new Subject<PageSorting>();
+    this.destroy = new Subject<any>();
 
     // data from refresh or paginator
     const obs2 = this.refresh.pipe(
+      tap(() => console.log('refresh next arrive')),
       debounceTime(300),
       switchMap((ps) => {
         this.loading = true;
@@ -228,6 +229,7 @@ export class FarmacistiComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   search() {
+    console.log('search click event')
     const page = this.mkPage();
     this.refresh.next(page);
     this.paginator.pageIndex = page.pageIndex;

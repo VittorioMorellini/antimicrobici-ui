@@ -86,16 +86,17 @@ export class DottoriComponent implements OnInit, OnDestroy, AfterViewInit {
               private readonly snackBar: MatSnackBar) {
     this.richiedenti = route.data.pipe(map((data: { richiedenti: Result<NamedEntity> }) => data.richiedenti.results));
     this.materiali = route.data.pipe(map((data: { materiali: Result<NamedEntity> }) => data.materiali.results));
-    this.refresh = new Subject();
-    this.destroy = new Subject();
+    this.refresh = new Subject<PageSorting>();
+    this.destroy = new Subject<any>();
 
-    // data from routing
+    // data from routing and resolve
     // const obs1 = this.route.data.pipe(map((data: { richieste: Result<RichiestaRecord> }) => {
     //   return data.richieste;
     // }));
 
     // data from refresh or paginator
     const obs2 = this.refresh.pipe(
+      tap(() => console.log('refresh next')),
       debounceTime(300),
       switchMap(ps => {
         this.loading = true;
