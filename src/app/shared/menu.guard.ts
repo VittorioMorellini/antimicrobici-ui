@@ -18,13 +18,18 @@ function mkPath(path: ActivatedRouteSnapshot[]): string {
   providedIn: 'root'
 })
 export class MenuGuard implements CanActivate {
-  constructor(private readonly menu: MenuCacheService,
+  constructor(
+    private readonly menu: MenuCacheService,
     private readonly router: Router,
-    @Optional() private lockout: LockoutService) { }
+    @Optional() private lockout: LockoutService
+  ) 
+  { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const path = mkPath(next.pathFromRoot);
+    console.log({path})
     return this.menu.urls.pipe(map(urls => {
+      console.log({urls})
       const allowed = urls.indexOf(path) >= 0;
       if (!allowed) {
         console.error(`🚫 Not allowed to access: ${path}`);

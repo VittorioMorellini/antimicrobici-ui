@@ -37,7 +37,7 @@ const routes: Routes = [
       {
         path: "richieste/dottori",
         component: DottoriComponent,
-        //canActivate: [MenuGuard],
+        canActivate: [MenuGuard],
         resolve: {
           richiedenti: RichiedentiResolverService,
           materiali: MaterialiResolverService,
@@ -59,7 +59,7 @@ const routes: Routes = [
       {
         path: "materiali/registro",
         component: RegistroMaterialiScadutiComponent,
-        //canActivate: [MenuGuard],
+        canActivate: [MenuGuard],
         resolve: {
           richiedenti: RichiedentiResolverService,
           // materiali: CatalogoResolverService,
